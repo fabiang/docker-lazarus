@@ -1,0 +1,94 @@
+name: Docker Image
+
+on:
+  push:
+    paths-ignore:
+      - "README.md"
+      - "LICENSE"
+      - ".editorconfig"
+  pull_request:
+  schedule:
+    - cron: "0 12 1-7 * 2"
+
+jobs:
+  docker-image-windows:
+    strategy:
+      matrix:
+        windows:
+          - image: servercore
+            version: ltsc2019
+            runs_on: 2019
+          - image: servercore
+            version: ltsc2022
+            runs_on: 2022
+        lazarus:
+          - version: "2.2.6"
+            version_minor: "2.2"
+            version_major: "2"
+            fpc_Version: "3.2.2"
+            download_hash: "9246320C6FA3F54ACF41B10A5F7CE6FCA459C950AF1BF842C54A4AA92B64D736"
+
+    env:
+      IMAGE_NAME_FULL: "fabiang/lazarus:${{ matrix.lazarus.version }}-windows${{ matrix.windows.image }}-${{ matrix.windows.version }}"
+      IMAGE_NAME_MINOR: "fabiang/lazarus:${{ matrix.lazarus.version_minor }}-windows${{ matrix.windows.image }}-${{ matrix.windows.version }}"
+      IMAGE_NAME_MAJOR: "fabiang/lazarus:${{ matrix.lazarus.version_major }}-windows${{ matrix.windows.image }}-${{ matrix.windows.version }}"
+
+    runs-on: windows-${{ matrix.windows.runs_on }}
+
+    name: "Win v${{ matrix.lazarus.version }} (${{ matrix.windows.image }} – (${{ matrix.windows.version }})"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Githubs Cache with 10GB is to small
+      #      - uses: jpribyl/action-docker-layer-caching@v0.1.1
+      #        continue-on-error: true
+
+      - name: Build Image
+        run: |
+          docker build -f windows/Dockerfile `
+            -t '${{ env.IMAGE_NAME_FULL }}' `
+            `
+            --build-arg 'LAZARUS_VERSION=${{ matrix.lazarus.version }}' `
+            --build-arg 'LAZARUS_DOWNLOAD_HASH_SHA256=${{ matrix.lazarus.download_hash }}' `
+            --build-arg 'FPC_VERSION=${{ matrix.lazarus.fpc_version }}' `
+            `
+            --build-arg 'WINDOWS_IMAGE=${{ matrix.windows.image }}' `
+            --build-arg 'WINDOWS_VERSION=${{ matrix.windows.version }}' `
+            .
+
+      - name: Tag Minor
+        if: "${{ matrix.lazarus.version_minor != '' }}"
+        run: docker tag '${{ env.IMAGE_NAME_FULL }}' '${{ env.IMAGE_NAME_MINOR }}'
+
+      - name: Tag Major
+        if: "${{ matrix.lazarus.version_major != '' }}"
+        run: docker tag '${{ env.IMAGE_NAME_FULL }}' '${{ env.IMAGE_NAME_MAJOR }}'
+
+      - name: Test image
+        run: |
+          docker run -t --rm --entrypoint='' `
+            '${{ env.IMAGE_NAME_FULL }}' `
+            ppc386 -h
+
+      - name: Docker Hub login
+        if: "${{ github.ref == 'refs/heads/main' }}"
+        uses: azure/docker-login@v1
+        with:
+          username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+          password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+
+      - name: Push Image
+        if: "${{ github.ref == 'refs/heads/main' }}"
+        run: |
+          docker push '${{ env.IMAGE_NAME_FULL }}'
+
+      - name: Push Image Minor
+        if: "${{ matrix.lazarus.version_minor != '' && github.ref == 'refs/heads/main' }}"
+        run: |
+          docker push '${{ env.IMAGE_NAME_MINOR }}'
+
+      - name: Push Image Major
+        if: "${{ matrix.lazarus.version_major != '' && github.ref == 'refs/heads/main' }}"
+        run: |
+          docker push '${{ env.IMAGE_NAME_MAJOR }}'
