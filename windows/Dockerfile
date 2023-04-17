@@ -39,7 +39,7 @@ ENV TEMP=C:\\Windows\\TEMP
 #    Remove-Item -Force -Path ("'{0}\\fpc.log'" -f $Env:TEMP);
 
 ARG LAZARUS_VERSION=2.2.6
-ARG LAZARUS_DOWNLOAD_HASH_SHA256=9246320C6FA3F54ACF41B10A5F7CE6FCA459C950AF1BF842C54A4AA92B64D736
+ARG LAZARUS_DOWNLOAD_HASH_SHA256=3AECCE3F12F9C1824DCB149142ABFBAEE4E162A2624E62CB0ECD9B7C2142B7E3
 ENV LAZARUS_INSTALL_PATH="C:\\Lazarus"
 
 RUN Write-Host 'Downloading Lazarus ...'; `
@@ -48,7 +48,7 @@ RUN Write-Host 'Downloading Lazarus ...'; `
     Invoke-WebRequest `
          # Fake user agent, otherwise redirects are not working
         -UserAgent 'curl/7.85.0' `
-        -Uri ("'https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2064%20bits/Lazarus%20{0}/lazarus-{0}-fpc-{1}-cross-i386-win32-win64.exe/download'" -f $Env:LAZARUS_VERSION, $Env:FPC_VERSION) `
+        -Uri ("'https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2032%20bits/Lazarus%20{0}/lazarus-{0}-fpc-{1}-win64.exe/download'" -f -f $Env:LAZARUS_VERSION, $Env:FPC_VERSION) `
         -OutFile ("'{0}\\lazarus.exe'" -f $Env:TEMP) `
         -MaximumRedirection 10; `
     `
