@@ -26,7 +26,7 @@ jobs:
             version_minor: "2.2"
             version_major: "2"
             fpc_Version: "3.2.2"
-            download_hash: "3AECCE3F12F9C1824DCB149142ABFBAEE4E162A2624E62CB0ECD9B7C2142B7E3"
+            download_hash: "97461dfe6e282b172f33b80b00d771f2780b2d76bd346beccc43bc98e1a80a8d"
 
     env:
       IMAGE_NAME_FULL: "fabiang/lazarus:${{ matrix.lazarus.version }}-windows${{ matrix.windows.image }}-${{ matrix.windows.version }}"
