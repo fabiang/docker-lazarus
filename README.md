@@ -16,8 +16,9 @@ Freepascal (fpc) compiler + Lazarus project libraries as Docker image
 ```
   docker run -it --rm `
     -v "mysourcecode:C:\\app" `
+    -w "C:\\app" `
     fabiang/lazarus:2-windowsservercore-ltsc2022 `
-    ppc386.exe MyApp.pas
+    lazbuild.exe MyApp.lpi
 ```
 
 ## License
