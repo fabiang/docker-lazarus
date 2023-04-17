@@ -35,7 +35,7 @@ jobs:
 
     runs-on: windows-${{ matrix.windows.runs_on }}
 
-    name: "Win v${{ matrix.lazarus.version }} (${{ matrix.windows.image }} – (${{ matrix.windows.version }})"
+    name: "Win v${{ matrix.lazarus.version }} (${{ matrix.windows.image }} – ${{ matrix.windows.version }})"
 
     steps:
       - uses: actions/checkout@v3

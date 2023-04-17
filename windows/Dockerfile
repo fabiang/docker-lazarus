@@ -58,7 +58,7 @@ RUN Write-Host 'Downloading Lazarus ...'; `
     exit 1; `
     }; `
     `
-    Write-Host 'Install Lazarus compiler ...'; `
+    Write-Host 'Install Lazarus ...'; `
     Start-Process -NoNewWindow -Wait -PassThru `
         -FilePath ("'{0}\\lazarus.exe'" -f $Env:TEMP) `
         -ArgumentList ("'/VERYSILENT /NORESTART /LOG=\"{0}\\lazarus.log\" /DIR=\"{1}\"'" -f $Env:TEMP, $Env:LAZARUS_INSTALL_PATH); `
