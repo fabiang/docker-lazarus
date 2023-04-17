@@ -64,8 +64,12 @@ RUN Write-Host 'Downloading Lazarus ...'; `
         -ArgumentList ("'/VERYSILENT /NORESTART /LOG=\"{0}\\lazarus.log\" /DIR=\"{1}\"'" -f $Env:TEMP, $Env:LAZARUS_INSTALL_PATH); `
     `
     # Better handling of errors from log
-    $NewPath = [Environment]::GetEnvironmentVariable('PATH', 'Machine') + [IO.Path]::PathSeparator + `
-        ( '{0}\fpc\{1}\bin\x86_64-win64' -f $Env:LAZARUS_INSTALL_PATH, $Env:FPC_VERSION ) ; `
+    $NewPath = [Environment]::GetEnvironmentVariable('PATH', 'Machine') `
+        + [IO.Path]::PathSeparator `
+        + ( '{0}\fpc\{1}\bin\x86_64-win64' -f $Env:LAZARUS_INSTALL_PATH, $Env:FPC_VERSION ) `
+        + [IO.Path]::PathSeparator `
+        + ( '{0}' -f $Env:LAZARUS_INSTALL_PATH ) `
+        ; `
     [Environment]::SetEnvironmentVariable('PATH', $NewPath, 'Machine'); `
     `
     Remove-Item -Force -Path ("'{0}\\lazarus.exe'" -f $Env:TEMP); `
