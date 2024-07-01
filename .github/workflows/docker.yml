@@ -7,8 +7,6 @@ on:
       - "LICENSE"
       - ".editorconfig"
   pull_request:
-  schedule:
-    - cron: "0 12 1-7 * 2"
 
 jobs:
   docker-image-windows:
@@ -27,6 +25,13 @@ jobs:
             version_major: "2"
             fpc_Version: "3.2.2"
             download_hash: "97461dfe6e282b172f33b80b00d771f2780b2d76bd346beccc43bc98e1a80a8d"
+            download_hash_x86: "fe11bfb90555f502bd33474bccc9f89103b4187e7f9451d92eff97ad2139ec52"
+          - version: "3.4"
+            version_minor: "3.4"
+            version_major: "3"
+            fpc_Version: "3.2.2"
+            download_hash: "6ede48350b9890929088bd33aa441e1bf4cf813b21bc38149e3df3bbe673bbd3"
+            download_hash_x86: "e16a7bee07af9dc39df7787348b8a06e87d6b7a9b64f29f5aa795d1b2b4b6f4d"
 
     env:
       IMAGE_NAME_FULL: "fabiang/lazarus:${{ matrix.lazarus.version }}-windows${{ matrix.windows.image }}-${{ matrix.windows.version }}"
@@ -51,6 +56,7 @@ jobs:
             `
             --build-arg 'LAZARUS_VERSION=${{ matrix.lazarus.version }}' `
             --build-arg 'LAZARUS_DOWNLOAD_HASH_SHA256=${{ matrix.lazarus.download_hash }}' `
+            --build-arg 'LAZARUS_XCOMPILE_X86_DOWNLOAD_HASH_SHA256=${{ matrix.lazarus.download_hash_x86 }}' `
             --build-arg 'FPC_VERSION=${{ matrix.lazarus.fpc_version }}' `
             `
             --build-arg 'WINDOWS_IMAGE=${{ matrix.windows.image }}' `
@@ -58,7 +64,7 @@ jobs:
             .
 
       - name: Tag Minor
-        if: "${{ matrix.lazarus.version_minor != '' }}"
+        if: "${{ matrix.lazarus.version_minor != '' && matrix.lazarus.version != matrix.lazarus.version_minor }}"
         run: docker tag '${{ env.IMAGE_NAME_FULL }}' '${{ env.IMAGE_NAME_MINOR }}'
 
       - name: Tag Major
@@ -73,6 +79,12 @@ jobs:
           docker run -t --rm --entrypoint='' `
             '${{ env.IMAGE_NAME_FULL }}' `
             lazbuild.exe --version
+          docker run -t --rm --entrypoint='' `
+            '${{ env.IMAGE_NAME_FULL }}' `
+            "C:\lazarus\fpc\${{ matrix.lazarus.fpc_version }}\bin\x86_64-win64\ppcx64.exe" -h
+          docker run -t --rm --entrypoint='' `
+            '${{ env.IMAGE_NAME_FULL }}' `
+            "C:\lazarus\fpc\${{ matrix.lazarus.fpc_version }}\bin\i386-win32\ppcx64.exe" -h
 
       - name: Docker Hub login
         if: "${{ github.ref == 'refs/heads/main' }}"
@@ -87,7 +99,7 @@ jobs:
           docker push '${{ env.IMAGE_NAME_FULL }}'
 
       - name: Push Image Minor
-        if: "${{ matrix.lazarus.version_minor != '' && github.ref == 'refs/heads/main' }}"
+        if: "${{ matrix.lazarus.version_minor != '' && matrix.lazarus.version != matrix.lazarus.version_minor && github.ref == 'refs/heads/main' }}"
         run: |
           docker push '${{ env.IMAGE_NAME_MINOR }}'
 
