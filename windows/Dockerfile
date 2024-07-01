@@ -12,7 +12,7 @@ ENV TEMP=C:\\Windows\\TEMP
 ARG LAZARUS_VERSION=3.4
 ARG FPC_VERSION=3.2.2
 ARG LAZARUS_DOWNLOAD_HASH_SHA256=6ede48350b9890929088bd33aa441e1bf4cf813b21bc38149e3df3bbe673bbd3
-ARG LAZARUS_XCOMPILE_X86_DOWNLOAD_HASH_SHA256=e16a7bee07af9dc39df7787348b8a06e87d6b7a9b64f29f5aa795d1b2b4b6f4d
+ARG LAZARUS_XCOMPILE_X86_DOWNLOAD_HASH_SHA256=a481dd2c00780da6663371d1f92bbec08bba284d35d3c508426ef4544c8c448b
 ENV LAZARUS_INSTALL_PATH="C:\\Lazarus"
 
 RUN Write-Host 'Downloading Lazarus ...'; `
@@ -40,7 +40,7 @@ RUN Write-Host 'Downloading Lazarus ...'; `
 RUN Write-Host 'Downloading Lazarus Cross-Compiling Addon (x86) ...'; `
     Invoke-WebRequest `
         -UserAgent 'curl/7.85.0' `
-        -Uri ("'https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2032%20bits/Lazarus%20{0}/lazarus-{0}-fpc-{1}-cross-x86_64-win64-win32.exe/download'" -f $Env:LAZARUS_VERSION, $Env:FPC_VERSION) `
+        -Uri ("'https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2064%20bits/Lazarus%20{0}/lazarus-{0}-fpc-{1}-cross-i386-win32-win64.exe/download'" -f $Env:LAZARUS_VERSION, $Env:FPC_VERSION) `
         -OutFile ("'{0}\\lazarus-cross-x86.exe'" -f $Env:TEMP) `
         -MaximumRedirection 10; `
     `
@@ -59,8 +59,6 @@ RUN Write-Host 'Downloading Lazarus Cross-Compiling Addon (x86) ...'; `
 RUN $NewPath = [Environment]::GetEnvironmentVariable('PATH', 'Machine') `
         + [IO.Path]::PathSeparator `
         + ( '{0}\fpc\{1}\bin\x86_64-win64' -f $Env:LAZARUS_INSTALL_PATH, $Env:FPC_VERSION ) `
-        + [IO.Path]::PathSeparator `
-        + ( '{0}\fpc\{1}\bin\i386-win32' -f $Env:LAZARUS_INSTALL_PATH, $Env:FPC_VERSION ) `
         + [IO.Path]::PathSeparator `
         + ( '{0}' -f $Env:LAZARUS_INSTALL_PATH ) `
         ; `

@@ -25,13 +25,13 @@ jobs:
             version_major: "2"
             fpc_Version: "3.2.2"
             download_hash: "97461dfe6e282b172f33b80b00d771f2780b2d76bd346beccc43bc98e1a80a8d"
-            download_hash_x86: "fe11bfb90555f502bd33474bccc9f89103b4187e7f9451d92eff97ad2139ec52"
+            download_hash_x86: "9246320c6fa3f54acf41b10a5f7ce6fca459c950af1bf842c54a4aa92b64d736"
           - version: "3.4"
             version_minor: "3.4"
             version_major: "3"
             fpc_Version: "3.2.2"
             download_hash: "6ede48350b9890929088bd33aa441e1bf4cf813b21bc38149e3df3bbe673bbd3"
-            download_hash_x86: "e16a7bee07af9dc39df7787348b8a06e87d6b7a9b64f29f5aa795d1b2b4b6f4d"
+            download_hash_x86: "a481dd2c00780da6663371d1f92bbec08bba284d35d3c508426ef4544c8c448b"
 
     env:
       IMAGE_NAME_FULL: "fabiang/lazarus:${{ matrix.lazarus.version }}-windows${{ matrix.windows.image }}-${{ matrix.windows.version }}"
@@ -84,7 +84,7 @@ jobs:
             "C:\lazarus\fpc\${{ matrix.lazarus.fpc_version }}\bin\x86_64-win64\ppcx64.exe" -h
           docker run -t --rm --entrypoint='' `
             '${{ env.IMAGE_NAME_FULL }}' `
-            "C:\lazarus\fpc\${{ matrix.lazarus.fpc_version }}\bin\i386-win32\ppcx64.exe" -h
+            "C:\lazarus\fpc\${{ matrix.lazarus.fpc_version }}\bin\x86_64-win64\ppc386.exe" -h
 
       - name: Docker Hub login
         if: "${{ github.ref == 'refs/heads/main' }}"
