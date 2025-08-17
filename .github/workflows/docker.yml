@@ -20,6 +20,18 @@ jobs:
             version: ltsc2022
             runs_on: 2022
         lazarus:
+          - version: "3.8"
+            version_minor: "3.8"
+            version_major: "3"
+            fpc_Version: "3.2.2"
+            download_hash: "5db76aac7c9e20f665e85b8ab06abd5b46a87858f6539ec4dd181d1750ad046a"
+            download_hash_x86: "604cb49481ed8b1a1c1546dd8d07ec5970c9b06453659891801a7252600d189b"
+          - version: "3.6"
+            version_minor: "3.6"
+            version_major: ""
+            fpc_Version: "3.2.2"
+            download_hash: "568ec39f976d789ad4cfee75c999f1fe4fe0cbf54089a2b26d3b098b9190cc75"
+            download_hash_x86: "6587ce04b8869bf22c655b0c2f0dbb4146a9e1926f8d0896c37b61fcf1b7e813"
           - version: "2.2.6"
             version_minor: "2.2"
             version_major: "2"
@@ -31,14 +43,7 @@ jobs:
             version_major: ""
             fpc_Version: "3.2.2"
             download_hash: "6ede48350b9890929088bd33aa441e1bf4cf813b21bc38149e3df3bbe673bbd3"
-            download_hash_x86: "a481dd2c00780da6663371d1f92bbec08bba284d35d3c508426ef4544c8c448b"
-          - version: "3.6"
-            version_minor: "3.6"
-            version_major: "3"
-            fpc_Version: "3.2.2"
-            download_hash: "568ec39f976d789ad4cfee75c999f1fe4fe0cbf54089a2b26d3b098b9190cc75"
-            download_hash_x86: "6587ce04b8869bf22c655b0c2f0dbb4146a9e1926f8d0896c37b61fcf1b7e813"
-
+            download_hash_x86: "a481dd2c00780da6663371d1f92bbec08bba284d35d3c508426ef4544c8c448b"            
     env:
       IMAGE_NAME_FULL: "fabiang/lazarus:${{ matrix.lazarus.version }}-windows${{ matrix.windows.image }}-${{ matrix.windows.version }}"
       IMAGE_NAME_MINOR: "fabiang/lazarus:${{ matrix.lazarus.version_minor }}-windows${{ matrix.windows.image }}-${{ matrix.windows.version }}"
