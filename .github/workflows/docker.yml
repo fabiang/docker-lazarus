@@ -20,6 +20,12 @@ jobs:
             version: ltsc2025
             runs_on: 2025
         lazarus:
+          - version: "4.2"
+            version_minor: "4.2"
+            version_major: "2"
+            fpc_Version: "3.2.2"
+            download_hash: "5bb6b98a9fc4235262b7f424e2b03e9e81e09d9ef28c031c8463c645c897eec8"
+            download_hash_x86: "56dd5da4ce930688ea3a78bd96062b6692b47852eba1be0829136b8a88d2f6c4"
           - version: "3.8"
             version_minor: "3.8"
             version_major: "3"
