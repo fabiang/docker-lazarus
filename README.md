@@ -8,12 +8,16 @@ Freepascal (fpc) compiler + Lazarus project libraries as Docker image
 
 ## Available tags
 
-* 3.6-windowsservercore-ltsc2022, 3-windowsservercore-ltsc2022
-* 3.6-windowsservercore-ltsc2019, 3-windowsservercore-ltsc2019
+* 4.2-windowsservercore-ltsc2022, 4-windowsservercore-ltsc2022
+* 4.2-windowsservercore-ltsc2025, 4-windowsservercore-ltsc2025
+* 3.8-windowsservercore-ltsc2022, 3-windowsservercore-ltsc2022
+* 3.8-windowsservercore-ltsc2025, 3-windowsservercore-ltsc2025
+* 3.6-windowsservercore-ltsc2022
+* 3.6-windowsservercore-ltsc2025
 * 3.4-windowsservercore-ltsc2022
-* 3.4-windowsservercore-ltsc2019
+* 3.4-windowsservercore-ltsc2025
 * 2.2.6-windowsservercore-ltsc2022, 2.2-windowsservercore-ltsc2022, 2-windowsservercore-ltsc2022
-* 2.2.6-windowsservercore-ltsc2019, 2.2-windowsservercore-ltsc2019, 2-windowsservercore-ltsc2019
+* 2.2.6-windowsservercore-ltsc2025, 2.2-windowsservercore-ltsc2025, 2-windowsservercore-ltsc2025
 
 ## Usage
 
