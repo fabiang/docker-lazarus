@@ -14,11 +14,11 @@ jobs:
       matrix:
         windows:
           - image: servercore
-            version: ltsc2019
-            runs_on: 2019
-          - image: servercore
             version: ltsc2022
             runs_on: 2022
+          - image: servercore
+            version: ltsc2025
+            runs_on: 2025
         lazarus:
           - version: "3.8"
             version_minor: "3.8"
