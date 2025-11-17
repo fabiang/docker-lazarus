@@ -4,7 +4,7 @@ Freepascal (fpc) compiler + Lazarus project libraries as Docker image. Cross-com
 This repository focuses on pure Windows Container Images.
 
 [![fabiang/lazarus](https://img.shields.io/docker/pulls/fabiang/lazarus.svg)](https://hub.docker.com/r/fabiang/lazarus)
-[![fabiang/lazarus](https://badgen.net/github/license/fabiang/docker-lazarus)](https://github.com/fabiang/docker-lazarus)
+[![fabiang/lazarus](https://img.shields.io/badge/License-BSD_2--Clause-orange.svg)](https://github.com/fabiang/docker-lazarus)
 [![Docker Image](https://github.com/fabiang/docker-lazarus/actions/workflows/docker.yml/badge.svg)](https://github.com/fabiang/docker-lazarus/actions/workflows/docker.yml)
 
 ## Available tags
