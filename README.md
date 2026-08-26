@@ -11,8 +11,10 @@ This repository focuses on pure Windows Container Images.
 
 **Note:** LTSC2019 images are deprecated and were removed from automatic build. Update to LTSC2022 or LTSC2025 asap.
 
-* 4.4-windowsservercore-ltsc2022, 4-windowsservercore-ltsc2022
-* 4.4-windowsservercore-ltsc2025, 4-windowsservercore-ltsc2025
+* 4.8-windowsservercore-ltsc2022, 4-windowsservercore-ltsc2022
+* 4.8-windowsservercore-ltsc2025, 4-windowsservercore-ltsc2025
+* 4.4-windowsservercore-ltsc2022
+* 4.4-windowsservercore-ltsc2025
 * 4.2-windowsservercore-ltsc2022
 * 4.2-windowsservercore-ltsc2025
 * 3.8-windowsservercore-ltsc2022, 3-windowsservercore-ltsc2022
