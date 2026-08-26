@@ -22,9 +22,17 @@ jobs:
         lazarus:
           # https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2064%20bits/
           # Hash is SHA256
+          - version: "4.8"
+            version_minor: "4.8"
+            version_major: "4"
+            fpc_Version: "3.2.2"
+            # lazarus-4.8-fpc-3.2.2-win64.exe
+            download_hash: "ed25ee171d55e23cf14e0633159fdd2325efba56e186f8ab817ad3bf97d267d7"
+            # lazarus-4.8-fpc-3.2.2-cross-i386-win32-win64.exe
+            download_hash_x86: "f734f78a5d608cb846b711af73f63b3ae956b4d703160d0b9a327bf191639f2a"
           - version: "4.4"
             version_minor: "4.4"
-            version_major: "4"
+            version_major: ""
             fpc_Version: "3.2.2"
             # lazarus-4.4-fpc-3.2.2-win64.exe
             download_hash: "f2780a81bfe3ab7f5fb4b6dd96db0f71af3f70fb8d1a01ae651d4fabbfb1ba5a"
