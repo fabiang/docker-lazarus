@@ -7,6 +7,8 @@ on:
       - "LICENSE"
       - ".editorconfig"
   pull_request:
+  schedule:
+    - cron: 0 9 1-7,21-28 * 3
 
 jobs:
   docker-image-windows:
