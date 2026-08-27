@@ -1,13 +1,14 @@
 # fabiang/lazarus
 
-Freepascal (fpc) compiler + Lazarus project libraries as Docker image. Cross-compiling for i386/Win32 is included. 
-This repository focuses on pure Windows Container Images.
+Freepascal (fpc) compiler + Lazarus project libraries as Docker image. Cross-compiling for i386/Win32 is included.
 
 [![fabiang/lazarus](https://img.shields.io/docker/pulls/fabiang/lazarus.svg)](https://hub.docker.com/r/fabiang/lazarus)
 [![fabiang/lazarus](https://img.shields.io/badge/License-BSD_2--Clause-orange.svg)](https://github.com/fabiang/docker-lazarus)
 [![Docker Image](https://github.com/fabiang/docker-lazarus/actions/workflows/docker.yml/badge.svg)](https://github.com/fabiang/docker-lazarus/actions/workflows/docker.yml)
 
 ## Available tags
+
+### Windows
 
 **Note:** LTSC2019 images are deprecated and were removed from automatic build. Update to LTSC2022 or LTSC2025 asap.
 
@@ -25,6 +26,12 @@ This repository focuses on pure Windows Container Images.
 * 3.4-windowsservercore-ltsc2025
 * 2.2.6-windowsservercore-ltsc2022, 2.2-windowsservercore-ltsc2022, 2-windowsservercore-ltsc2022
 * 2.2.6-windowsservercore-ltsc2025, 2.2-windowsservercore-ltsc2025, 2-windowsservercore-ltsc2025
+
+### Linux
+
+*Alpine images are considered beta*. PRs are welcome.
+
+* 4.8-alpine, 4-alpine
 
 ## Usage
 

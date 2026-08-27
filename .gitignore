@@ -1,0 +1,4 @@
+tests/gui_app/lib/
+tests/gui_app/gui_app
+*.exe
+*.res

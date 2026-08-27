@@ -21,7 +21,7 @@ RUN Write-Host 'Downloading Lazarus ...'; `
     Invoke-WebRequest `
          # Fake user agent, otherwise redirects are not working
         -UserAgent 'curl/7.85.0' `
-        -Uri ("'https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2064%20bits/Lazarus%20{0}/lazarus-{0}-fpc-{1}-win64.exe/download'" -f $Env:LAZARUS_VERSION, $Env:FPC_VERSION) `
+        -Uri ("'https://download.lazarus-ide.org/Lazarus%20Windows%2064%20bits/Lazarus%20{0}/lazarus-{0}-fpc-{1}-win64.exe'" -f $Env:LAZARUS_VERSION, $Env:FPC_VERSION) `
         -OutFile ("'{0}\\lazarus.exe'" -f $Env:TEMP) `
         -MaximumRedirection 10; `
     `
@@ -40,7 +40,7 @@ RUN Write-Host 'Downloading Lazarus ...'; `
 RUN Write-Host 'Downloading Lazarus Cross-Compiling Addon (x86) ...'; `
     Invoke-WebRequest `
         -UserAgent 'curl/7.85.0' `
-        -Uri ("'https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2064%20bits/Lazarus%20{0}/lazarus-{0}-fpc-{1}-cross-i386-win32-win64.exe/download'" -f $Env:LAZARUS_VERSION, $Env:FPC_VERSION) `
+        -Uri ("'https://download.lazarus-ide.org/Lazarus%20Windows%2064%20bits/Lazarus%20{0}/lazarus-{0}-fpc-{1}-cross-i386-win32-win64.exe'" -f $Env:LAZARUS_VERSION, $Env:FPC_VERSION) `
         -OutFile ("'{0}\\lazarus-cross-x86.exe'" -f $Env:TEMP) `
         -MaximumRedirection 10; `
     `
@@ -70,3 +70,6 @@ RUN $NewPath = [Environment]::GetEnvironmentVariable('PATH', 'Machine') `
     Remove-Item -Force -Path ("'{0}\\lazarus-cross-x86.log'" -f $Env:TEMP);
 
 USER ContainerUser
+
+ENTRYPOINT [ "lazbuild.exe" ]
+CMD [ "--help" ]

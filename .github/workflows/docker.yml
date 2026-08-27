@@ -145,3 +145,85 @@ jobs:
         if: "${{ matrix.lazarus.version_major != '' && github.ref == 'refs/heads/main' }}"
         run: |
           docker push '${{ env.IMAGE_NAME_MAJOR }}'
+
+  docker-image-alpine:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        lazarus:
+          - version: "4.8"
+            version_minor: "4.8"
+            version_major: "4"
+            fpc_version: "3.2.2"
+            fpc_bootstrap_version: "3.2.2"
+            fpc_bootstrap_hash: "5adac308a5534b6a76446d8311fc340747cbb7edeaacfe6b651493ff3fe31e83"
+            fpc_source_hash: "85ef993043bb83f999e2212f1bca766eb71f6f973d362e2290475dbaaf50161f"
+            download_hash: "6b4c9ec94fe79fe4e58027dd7bf10d9b6c35c9cb2f91db5930b7580b4a201a99"
+
+    env:
+      IMAGE_NAME_FULL: "fabiang/lazarus:${{ matrix.lazarus.version }}-alpine"
+      IMAGE_NAME_MINOR: "fabiang/lazarus:${{ matrix.lazarus.version_minor }}-alpine"
+      IMAGE_NAME_MAJOR: "fabiang/lazarus:${{ matrix.lazarus.version_major }}-alpine"
+
+    name: "Alpine v${{ matrix.lazarus.version }}"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build Image
+        run: |
+          docker build -f alpine/Dockerfile \
+            -t '${{ env.IMAGE_NAME_FULL }}' \
+            --build-arg 'LAZARUS_VERSION=${{ matrix.lazarus.version }}' \
+            --build-arg 'LAZARUS_SOURCE_HASH=${{ matrix.lazarus.download_hash }}' \
+            --build-arg 'FPC_VERSION=${{ matrix.lazarus.fpc_version }}' \
+            --build-arg 'FPC_SOURCE_HASH=${{ matrix.lazarus.fpc_source_hash }}' \
+            --build-arg 'FPC_BOOTSTRAP_VERSION=${{ matrix.lazarus.fpc_bootstrap_version }}' \
+            --build-arg 'FPC_BOOTSTRAP_HASH=${{ matrix.lazarus.fpc_bootstrap_hash }}' \
+            .
+
+      - name: Tag Minor
+        if: "${{ matrix.lazarus.version_minor != '' && matrix.lazarus.version != matrix.lazarus.version_minor }}"
+        run: docker tag '${{ env.IMAGE_NAME_FULL }}' '${{ env.IMAGE_NAME_MINOR }}'
+
+      - name: Tag Major
+        if: "${{ matrix.lazarus.version_major != '' }}"
+        run: docker tag '${{ env.IMAGE_NAME_FULL }}' '${{ env.IMAGE_NAME_MAJOR }}'
+
+      - name: Test Linux GUI Application (GTK2)
+        run: |
+          docker run --rm -v "${{ github.workspace }}/tests/gui_app:/app" -w /app --entrypoint='' '${{ env.IMAGE_NAME_FULL }}' \
+            lazbuild --ws=gtk2 --os=linux --cpu=x86_64 gui_app.lpi --lazarusdir=/usr/local/share/lazarus/
+
+      - name: Test Windows GUI Application (x64)
+        run: |
+          docker run --rm -v "${{ github.workspace }}/tests/gui_app:/app" -w /app --entrypoint='' '${{ env.IMAGE_NAME_FULL }}' \
+            lazbuild --ws=win32 --os=win64 --cpu=x86_64 gui_app.lpi --lazarusdir=/usr/local/share/lazarus/
+
+      - name: Test Windows GUI Application (i386)
+        run: |
+          docker run --rm -v "${{ github.workspace }}/tests/gui_app:/app" -w /app --entrypoint='' '${{ env.IMAGE_NAME_FULL }}' \
+            lazbuild --ws=win32 --os=win32 --cpu=i386 gui_app.lpi --lazarusdir=/usr/local/share/lazarus/
+
+      - name: Docker Hub login
+        if: "${{ github.ref == 'refs/heads/main' }}"
+        uses: azure/docker-login@v1
+        with:
+          username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+          password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+
+      - name: Push Image
+        if: "${{ github.ref == 'refs/heads/main' }}"
+        run: |
+          docker push '${{ env.IMAGE_NAME_FULL }}'
+
+      - name: Push Image Minor
+        if: "${{ matrix.lazarus.version_minor != '' && matrix.lazarus.version != matrix.lazarus.version_minor && github.ref == 'refs/heads/main' }}"
+        run: |
+          docker push '${{ env.IMAGE_NAME_MINOR }}'
+
+      - name: Push Image Major
+        if: "${{ matrix.lazarus.version_major != '' && github.ref == 'refs/heads/main' }}"
+        run: |
+          docker push '${{ env.IMAGE_NAME_MAJOR }}'
